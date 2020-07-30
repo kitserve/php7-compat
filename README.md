@@ -36,8 +36,6 @@ Use the code by cloning the repository, and then either via the `auto_prepend_fi
 * `mysql_info`
 * `mysql_list_processes`
 * `mysql_list_tables`
-* `mysql_ping`
-* `mysql_set_charset`
 * `mysql_stat`
 * `mysql_tablename`
 * `mysql_thread_id`
