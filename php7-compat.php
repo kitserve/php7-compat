@@ -13,7 +13,7 @@
  * GitHub.
  *
  * @author     Kitson Consulting <github at kitson minus consulting dot co dot uk>
- * @copyright  2019 Kitson Consulting Limited
+ * @copyright  2019-2020 Kitson Consulting Limited
  * @license    https://www.apache.org/licenses/LICENSE-2.0
  * @package    php7-compat
  * @see        https://github.com/kitserve/php7-compat
@@ -289,6 +289,19 @@ if( !function_exists( 'mysql_pconnect' ) )
 	}
 }
 
+if( !function_exists( 'mysql_ping' ) )
+{
+	function mysql_ping( $link = null )
+	{
+		if( !$link )
+		{
+			global $_php7_compat_global_db_link;
+			$link = $_php7_compat_global_db_link;
+		}
+		return mysqli_ping( $link );
+	}
+}
+
 if( !function_exists( 'mysql_query' ) )
 {
 	function mysql_query( $query, $link = null )
@@ -335,6 +348,19 @@ if( !function_exists( 'mysql_select_db' ) )
 			$link = $_php7_compat_global_db_link;
 		}
 		return mysqli_select_db( $link, $database );
+	}
+}
+
+if( !function_exists( 'mysql_set_charset' ) )
+{
+	function mysql_set_charset( $database, $link = null )
+	{
+		if( !$link )
+		{
+			global $_php7_compat_global_db_link;
+			$link = $_php7_compat_global_db_link;
+		}
+		return mysqli_set_charset( $link, $database );
 	}
 }
 
