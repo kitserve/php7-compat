@@ -273,6 +273,14 @@ if( !function_exists( 'mysql_num_rows' ) )
 	}
 }
 
+if( !function_exists( 'mysql_numrows' ) )
+{
+	function mysql_numrows( $result )
+	{
+		return mysqli_num_rows( $result );
+	}
+}
+
 if( !function_exists( 'mysql_pconnect' ) )
 {
 	function mysql_pconnect( $server = '', $user = '', $password = '', $client_flags = 0 )
