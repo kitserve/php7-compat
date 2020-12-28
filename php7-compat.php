@@ -23,6 +23,12 @@
 // mysqli_* functions require it, but old mysql_* functions don't)
 $_php7_compat_global_db_link = null;
 
+// definitions missing for old mysql
+define('MYSQL_CLIENT_COMPRESS', MYSQLI_CLIENT_COMPRESS);
+define('MYSQL_CLIENT_IGNORE_SPACE', MYSQLI_CLIENT_IGNORE_SPACE);
+define('MYSQL_CLIENT_INTERACTIVE', MYSQLI_CLIENT_INTERACTIVE);
+define('MYSQL_CLIENT_SSL', MYSQL_CLIENT_SSL);
+
 if( !function_exists( 'mysql_affected_rows' ) )
 {
 	function mysql_affected_rows( $link = null )
