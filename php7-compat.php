@@ -23,12 +23,17 @@
 // mysqli_* functions require it, but old mysql_* functions don't)
 $_php7_compat_global_db_link = null;
 
-// definitions missing for old mysql_connect $client_flags
+// definitions required for old mysql_connect $client_flags
 if( !defined( 'MYSQL_CLIENT_COMPRESS' ) ) define( 'MYSQL_CLIENT_COMPRESS', MYSQLI_CLIENT_COMPRESS );
 if( !defined( 'MYSQL_CLIENT_IGNORE_SPACE' ) ) define( 'MYSQL_CLIENT_IGNORE_SPACE', MYSQLI_CLIENT_IGNORE_SPACE );
 if( !defined( 'MYSQL_CLIENT_INTERACTIVE' ) ) define( 'MYSQL_CLIENT_INTERACTIVE', MYSQLI_CLIENT_INTERACTIVE );
 if( !defined( 'MYSQL_CLIENT_SSL' ) ) define( 'MYSQL_CLIENT_SSL', MYSQLI_CLIENT_SSL );
 
+// definitions required for old mysql_fetch_array $result_type
+if( !defined( 'MYSQL_ASSOC' ) ) define( 'MYSQL_ASSOC', MYSQLI_ASSOC );
+if( !defined( 'MYSQL_BOTH' ) ) define( 'MYSQL_BOTH', MYSQLI_BOTH );
+if( !defined( 'MYSQL_NUM' ) ) define( 'MYSQL_NUM', MYSQLI_NUM );
+        
 if( !function_exists( 'mysql_affected_rows' ) )
 {
 	function mysql_affected_rows( $link = null )
@@ -130,9 +135,6 @@ if( !function_exists( 'mysql_escape_string' ) )
 
 if( !function_exists( 'mysql_fetch_array' ) )
 {
-	if( !defined( 'MYSQL_ASSOC' ) ) define( 'MYSQL_ASSOC', MYSQLI_ASSOC );
-	if( !defined( 'MYSQL_BOTH' ) ) define( 'MYSQL_BOTH', MYSQLI_BOTH );
-	if( !defined( 'MYSQL_NUM' ) ) define( 'MYSQL_NUM', MYSQLI_NUM );
 	function mysql_fetch_array( $result, $result_type = MYSQLI_BOTH )
 	{
 		return mysqli_fetch_array( $result, $result_type );
