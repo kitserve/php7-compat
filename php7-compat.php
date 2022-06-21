@@ -13,7 +13,7 @@
  * GitHub.
  *
  * @author     Kitson Consulting <github at kitson minus consulting dot co dot uk>
- * @copyright  2019-2020 Kitson Consulting Limited
+ * @copyright  2019-2022 Kitson Consulting Limited
  * @license    https://www.apache.org/licenses/LICENSE-2.0
  * @package    php7-compat
  * @see        https://github.com/kitserve/php7-compat
@@ -384,7 +384,7 @@ if( !function_exists( 'ereg_replace' ) )
 {
 	function ereg_replace( $pattern, $replacement, $string )
 	{
-		return preg_replace( '/' . preg_quote( $pattern, '/' ) . '/', $replacement, $string );
+		return preg_replace( '/' . mb_ereg_replace( '/', '\\/', $pattern ) . '/', $replacement, $string );
 	}
 }
 
@@ -392,7 +392,7 @@ if( !function_exists( 'eregi_replace' ) )
 {
 	function eregi_replace( $pattern, $replacement, $string )
 	{
-		return preg_replace( '/' . preg_quote( $pattern, '/' ) . '/i', $replacement, $string );
+		return preg_replace( '/' . mb_ereg_replace( '/', '\\/', $pattern ) . '/i', $replacement, $string );
 	}
 }
 
@@ -400,8 +400,8 @@ if( !function_exists( 'ereg' ) )
 {
 	function ereg( $pattern, $string, $regs = null )
 	{
-		if( $regs ) return preg_match( '/' . preg_quote( $pattern, '/' ) . '/', $string, $regs );
-		else return preg_match( '/' . preg_quote( $pattern, '/' ) . '/', $string );
+		if( $regs ) return preg_match( '/' . mb_ereg_replace( '/', '\\/', $pattern ) . '/', $string, $regs );
+		else return preg_match( '/' . mb_ereg_replace( '/', '\\/', $pattern ) . '/', $string );
 	}
 }
 
@@ -409,8 +409,8 @@ if( !function_exists( 'eregi' ) )
 {
 	function eregi( $pattern, $string, $regs = null )
 	{
-		if( $regs ) return preg_match( '/' . preg_quote( $pattern, '/' ) . '/i', $string, $regs );
-		else return preg_match( '/' . preg_quote( $pattern, '/' ) . '/i', $string );
+		if( $regs ) return preg_match( '/' . mb_ereg_replace( '/', '\\/', $pattern ) . '/i', $string, $regs );
+		else return preg_match( '/' . mb_ereg_replace( '/', '\\/', $pattern ) . '/i', $string );
 	}
 }
 
@@ -418,7 +418,7 @@ if( !function_exists( 'split' ) )
 {
 	function split( $pattern, $string, $limit = -1 )
 	{
-		return preg_split( '/' . preg_quote( $pattern, '/' ) . '/', $string, $limit );
+		return preg_split( '/' . mb_ereg_replace( '/', '\\/', $pattern ) . '/', $string, $limit );
 	}
 }
 
@@ -426,7 +426,7 @@ if( !function_exists( 'spliti' ) )
 {
 	function spliti( $pattern, $string, $limit = -1 )
 	{
-		return preg_split( '/' . preg_quote( $pattern, '/' ) . '/i', $string, $limit );
+		return preg_split( '/' . mb_ereg_replace( '/', '\\/', $pattern ) . '/i', $string, $limit );
 	}
 }
 
