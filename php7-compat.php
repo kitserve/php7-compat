@@ -33,7 +33,7 @@ if( !defined( 'MYSQL_CLIENT_SSL' ) ) define( 'MYSQL_CLIENT_SSL', MYSQLI_CLIENT_S
 if( !defined( 'MYSQL_ASSOC' ) ) define( 'MYSQL_ASSOC', MYSQLI_ASSOC );
 if( !defined( 'MYSQL_BOTH' ) ) define( 'MYSQL_BOTH', MYSQLI_BOTH );
 if( !defined( 'MYSQL_NUM' ) ) define( 'MYSQL_NUM', MYSQLI_NUM );
-        
+
 if( !function_exists( 'mysql_affected_rows' ) )
 {
 	function mysql_affected_rows( $link = null )
@@ -73,7 +73,7 @@ if( !function_exists( 'mysql_connect' ) )
 	function mysql_connect( $server = '', $user = '', $password = '', $new_link = false, $client_flags = 0 )
 	{
 		global $_php7_compat_global_db_link;
-		
+
 		if( !$server ) $server = ini_get( 'mysqli.default_host' );
 		if( !$user ) $user = ini_get( 'mysqli.default_user' );
 		if( !$password ) $password = ini_get( 'mysqli.default_pw' );
@@ -221,7 +221,21 @@ if( !function_exists( 'mysql_free_result' ) )
 {
 	function mysql_free_result( $result )
 	{
-		return mysqli_free_result( $result );
+		if( $result )
+		{
+			// Note: mysqli_free_result returns void, whereas mysql_free_result returns bool
+			// TODO: we should do more in-depth error handling here and return false if the
+			// call to mysqli_free_result failed in some way.
+			mysqli_free_result( $result );
+			return true;
+		}
+		else
+		{
+			// Note: mysql_free_result generates an E_WARNING in this situation,
+			// but the closest we can get to that is an E_USER_WARNING
+			trigger_error( 'Unable to free non-result in mysql_free_result', E_USER_WARNING );
+			return false;
+		}
 	}
 }
 
