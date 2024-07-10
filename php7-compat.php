@@ -56,12 +56,21 @@ if( !function_exists( 'mysql_close' ) )
 			global $_php7_compat_global_db_link;
 			$link = $_php7_compat_global_db_link;
 		}
-		if( mysqli_close( $link ) )
+		// mysqli_close always returns true, and throws an exception if it wasn't able to close the connection.
+		// Since we're trying to mimic the behaviour of mysql_close, we need to catch exceptions and return false.
+		try
 		{
-			$_php7_compat_global_db_link = null;
-			return true;
+			if( mysqli_close( $link ) )
+			{
+				$_php7_compat_global_db_link = null;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
-		else
+		catch (\Throwable $exception)
 		{
 			return false;
 		}
