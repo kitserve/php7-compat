@@ -233,10 +233,15 @@ if( !function_exists( 'mysql_free_result' ) )
 		if( $result )
 		{
 			// Note: mysqli_free_result returns void, whereas mysql_free_result returns bool
-			// TODO: we should do more in-depth error handling here and return false if the
-			// call to mysqli_free_result failed in some way.
-			mysqli_free_result( $result );
-			return true;
+			try
+			{
+				mysqli_free_result( $result );
+				return true;
+			}
+			catch (\Throwable $e)
+			{
+				return false;
+			}
 		}
 		else
 		{
