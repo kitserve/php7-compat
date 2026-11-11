@@ -1,0 +1,58 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  phpunit:
+    name: PHP ${{ matrix.php }} / ${{ matrix.db }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        db: ['mysql:8.0', 'mariadb:10.11']
+
+    services:
+      db:
+        image: ${{ matrix.db }}
+        env:
+          # The MariaDB image also accepts these MYSQL_* variables
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: php7compat_test
+        ports:
+          - 3306:3306
+
+    env:
+      PHP7COMPAT_DB_HOST: 127.0.0.1
+      PHP7COMPAT_DB_PORT: 3306
+      PHP7COMPAT_DB_USER: root
+      PHP7COMPAT_DB_PASS: root
+      PHP7COMPAT_DB_NAME: php7compat_test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies
+        run: composer update --no-interaction --no-progress --prefer-dist
+
+      - name: Wait for database
+        run: |
+          for i in $(seq 1 60); do
+            php -r 'mysqli_report(MYSQLI_REPORT_OFF); exit(@mysqli_connect("127.0.0.1", "root", "root", "php7compat_test", 3306) ? 0 : 1);' && exit 0
+            sleep 2
+          done
+          echo "Database did not become ready" >&2
+          exit 1
+
+      - name: Run tests
+        run: vendor/bin/phpunit
