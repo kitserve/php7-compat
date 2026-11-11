@@ -1,0 +1,26 @@
+{
+    "name": "kitserve/php7-compat",
+    "description": "Wrapper functions around the removed mysql_* and ereg* functions for use in PHP 7 and PHP 8",
+    "type": "library",
+    "license": "Apache-2.0",
+    "require": {
+        "php": ">=7.0",
+        "ext-mysqli": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "autoload": {
+        "files": [
+            "php7-compat.php"
+        ]
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Php7Compat\\Tests\\": "tests/"
+        }
+    }
+}

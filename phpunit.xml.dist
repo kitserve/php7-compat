@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         beStrictAboutOutputDuringTests="true"
+         convertDeprecationsToExceptions="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    <testsuites>
+        <testsuite name="ereg">
+            <directory>tests/Ereg</directory>
+        </testsuite>
+        <testsuite name="misc">
+            <directory>tests/Misc</directory>
+        </testsuite>
+        <testsuite name="mysql">
+            <directory>tests/Mysql</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <!-- Database credentials for the mysql_* tests. Override these with
+             real environment variables; see TESTING.md. -->
+        <env name="PHP7COMPAT_DB_HOST" value="" />
+        <env name="PHP7COMPAT_DB_PORT" value="3306" />
+        <env name="PHP7COMPAT_DB_USER" value="" />
+        <env name="PHP7COMPAT_DB_PASS" value="" />
+        <env name="PHP7COMPAT_DB_NAME" value="php7compat_test" />
+    </php>
+</phpunit>
